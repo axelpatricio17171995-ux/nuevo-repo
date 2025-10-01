@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Enrutamiento simple con JavaScript</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; }
+    nav a { margin: 0 10px; text-decoration: none; color: blue; }
+    nav a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <h1>🌐 Enrutamiento con Hash</h1>
+  <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quia repellendus fuga assumenda, eaque soluta iusto commodi nisi optio numquam ab minima quisquam voluptate corrupti aut impedit. Placeat, debitis. Nihil, quas?</p>
+  
+  <!-- Menú -->
+  <nav>
+    <a href="#/">Home</a>
+    <a href="#/about">About</a>
+    <a href="#/contact">Contact</a>
+  </nav>
+
+  <!-- Contenido dinámico -->
+  <div id="app"></div>
+
+  <script>
+    // Definimos las "rutas"
+    const routes = {
+      '/': "<h2>🏠 Bienvenido al Home</h2><p>Esta es la página principal.</p>",
+      '/about': "<h2>ℹ️ About</h2><p>Información sobre este sitio.</p>",
+      '/contact': "<h2>📞 Contact</h2><p>Puedes contactarnos en contacto@mail.com</p>"
+    };
+
+    // Función para renderizar la ruta
+    function router() {
+      const path = window.location.hash.replace("#", "") || "/";
+      const content = routes[path] || "<h2>404 - Página no encontrada</h2>";
+      document.getElementById("app").innerHTML = content;
+    }
+
+    // Detecta cambios en el hash
+    window.addEventListener("hashchange", router);
+
+    // Carga inicial
+    window.addEventListener("load", router);
+  </script>
+</body>
+</html>
