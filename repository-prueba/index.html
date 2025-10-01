@@ -2,46 +2,69 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Enrutamiento simple con JavaScript</title>
+  <title>Enrutamiento + Suma</title>
   <style>
     body { font-family: Arial, sans-serif; padding: 20px; }
     nav a { margin: 0 10px; text-decoration: none; color: blue; }
     nav a:hover { text-decoration: underline; }
+    input, button { margin-top: 10px; padding: 5px; }
   </style>
 </head>
 <body>
-  <h1>🌐 Enrutamiento con Hash</h1>
-  <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quia repellendus fuga assumenda, eaque soluta iusto commodi nisi optio numquam ab minima quisquam voluptate corrupti aut impedit. Placeat, debitis. Nihil, quas?</p>
+  <h1>🌐 Enrutamiento con JavaScript</h1>
   
   <!-- Menú -->
   <nav>
     <a href="#/">Home</a>
     <a href="#/about">About</a>
     <a href="#/contact">Contact</a>
+    <a href="#/sum">Sumar Números</a>
   </nav>
 
   <!-- Contenido dinámico -->
   <div id="app"></div>
 
   <script>
+    let total = 0; // Acumulador de la suma
+
     // Definimos las "rutas"
     const routes = {
-      '/': "<h2>🏠 Bienvenido al Home</h2><p>Esta es la página principal.</p>",
+      '/': "<h2>🏠 Home</h2><p>Bienvenido a la página principal.</p>",
       '/about': "<h2>ℹ️ About</h2><p>Información sobre este sitio.</p>",
-      '/contact': "<h2>📞 Contact</h2><p>Puedes contactarnos en contacto@mail.com</p>"
+      '/contact': "<h2>📞 Contact</h2><p>Contáctanos en contacto@mail.com</p>",
+      '/sum': `
+        <h2>➕ Sumar números</h2>
+        <p>Total actual: <span id="total">0</span></p>
+        <input type="number" id="numberInput" placeholder="Ingresa un número">
+        <button onclick="addNumber()">Sumar</button>
+      `
     };
 
-    // Función para renderizar la ruta
+    // Función de enrutamiento
     function router() {
       const path = window.location.hash.replace("#", "") || "/";
       const content = routes[path] || "<h2>404 - Página no encontrada</h2>";
       document.getElementById("app").innerHTML = content;
+
+      // Si estamos en la ruta /sum, actualizar total
+      if (path === "/sum") {
+        document.getElementById("total").textContent = total;
+      }
     }
 
-    // Detecta cambios en el hash
-    window.addEventListener("hashchange", router);
+    // Función para sumar
+    function addNumber() {
+      const input = document.getElementById("numberInput");
+      const value = Number(input.value);
+      if (!isNaN(value)) {
+        total += value;
+        document.getElementById("total").textContent = total;
+        input.value = "";
+      }
+    }
 
-    // Carga inicial
+    // Detecta cambios en la ruta
+    window.addEventListener("hashchange", router);
     window.addEventListener("load", router);
   </script>
 </body>
